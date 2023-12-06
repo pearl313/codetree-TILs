@@ -37,9 +37,6 @@ def growth():
                 continue
             cnt += 1
         ing_board[cur_x][cur_y] += cnt
-    # for i in can_breed:
-    #     print(*i)
-    # print()
 
 # 나무 번식 함수
 def breeding():
@@ -58,16 +55,10 @@ def breeding():
                 continue
             ing_board[nx][ny] += ing_board[cur_x][cur_y] // can_breed[cur_x][cur_y]
 
-    # for i in ing_board:
-    #     print(*i)
-    # print('---------------')
 
 # 제초제 뿌릴 위치 선정하는 함수
 def find_point():
     global can_dead, where, dead_trees
-    # for i in ing_board:
-    #     print(*i)
-    # print('---------')
     for i in range(n):
         for j in range(n):
             if ing_board[i][j] > 0:
@@ -84,8 +75,6 @@ def find_point():
                         if ing_board[nx][ny] <= 0:
                             no.append((dx, dy))
                             continue
-                        
-                        # print('->', can_dead[cur_x][cur_y], ing_board[nx][ny], cur_x, cur_y, nx, ny, dx, dy)
                         can_dead[cur_x][cur_y] += ing_board[nx][ny]
     
     max_val = 0
@@ -97,9 +86,6 @@ def find_point():
             elif max_val < can_dead[i][j]:
                 max_val = can_dead[i][j]
                 x, y = i, j
-    # where.append([x, y])
-        # print(*v)
-    # print(max_val, where)
     dead_trees += max_val
     spread_dead(x, y)
 
@@ -116,7 +102,6 @@ def spread_dead(x, y):
                     ing_board[i][j] = 0
     # 제초제 뿌려주기
     drug[x][y] = c
-    # dead_trees += ing_board[x][y]
     ing_board[x][y] = -2
     for dx, dy in dxy_2:
             no = []
@@ -131,17 +116,9 @@ def spread_dead(x, y):
                     no.append((dx, dy))
                     if ing_board[nx][ny] == -1:
                         continue
-                # dead_trees += ing_board[nx][ny]
                 ing_board[nx][ny] = -2
                 drug[nx][ny] = c
-                # print('>>>>>', dead_trees)
 
-    # for i in ing_board:
-    #     print(*i)
-    # print('------')
-    # for j in drug:
-    #     print(*j)
-    # print('=======')
 n, m, k, c = map(int, input().split())
 done_board = [list(map(int, input().split())) for _ in range(n)]
 ing_board = [i[:] for i in done_board]
@@ -150,27 +127,14 @@ where = []
 drug = [[0] * n for _ in range(n)]
 dead_trees = 0
 for _ in range(m):
-    # for i in range(len(where)):
-    #     where[i][2] -= 1
-    #     # year -= 1
-    #     # print('???', i, j, year)
-    # print('--->', where)
     can_breed = [[0] * n for _ in range(n)]
     # 성장
     growth()
     # 번식
     breeding()
-    # for i in ing_board:
-    #     print(*i)
-    # print('---------')
     can_dead = [i[:] for i in ing_board]
     # 제초제 위치 선정
     x, y = 0, 0
     find_point()
     done_board = [i[:] for i in ing_board]
-    # 제초제 뿌리고 박멸
-    # spread_dead()
-    # for i, j, year in where:
-    #     if year == 0:
-    #         where.remove(i, j, year)
 print(dead_trees)
