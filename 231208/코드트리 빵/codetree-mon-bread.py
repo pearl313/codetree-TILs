@@ -44,6 +44,8 @@ def move_to_store():
                 continue
             if visited[nx][ny]:
                 continue
+            if dist_to_base[nx][ny] == -1:
+                continue
             if min_v > dist_to_base[nx][ny]:
                 min_v = dist_to_base[nx][ny]
                 can_go.append((dist_to_base[nx][ny], nx, ny))
@@ -63,6 +65,7 @@ def check_visited():
         y = where_store[i][1] - 1
         if people[i][0] == x and people[i][1] == y:
             visited[x][y] = True
+
 
 # 베이스캠프로 이동하는 함수
 def move_to_base():
@@ -120,7 +123,6 @@ while True:
     # 현재 시간 time이 m 이하인 경우, time 번 사람이 가고싶은 편의점과 가장 가까운 베이스 캠프로 이동
     if time <= m:
         move_to_base()
-        check_visited()
 
     # 모두 편의점에 도착했는지 확인
     if len(people) == m:
